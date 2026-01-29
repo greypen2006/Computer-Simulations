@@ -1,0 +1,657 @@
+{
+  "nbformat": 4,
+  "nbformat_minor": 0,
+  "metadata": {
+    "colab": {
+      "provenance": []
+    },
+    "kernelspec": {
+      "name": "python3",
+      "display_name": "Python 3"
+    },
+    "language_info": {
+      "name": "python"
+    }
+  },
+  "cells": [
+    {
+      "cell_type": "code",
+      "execution_count": 23,
+      "metadata": {
+        "id": "qLafs9WpxxQT"
+      },
+      "outputs": [],
+      "source": [
+        "rule = {\"111\": '0', \"110\": '0', \"101\": '0', \"000\": '0',\n",
+        "        \"100\": '1', \"011\": '1', \"010\": '1', \"001\": '1'}"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "def window(iterable, stride=3):\n",
+        "  for index in range(len(iterable) - stride + 1):\n",
+        "    yield iterable[index:index + stride]\n"
+      ],
+      "metadata": {
+        "id": "00z98c5ex_Et"
+      },
+      "execution_count": 4,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "window('foobar')"
+      ],
+      "metadata": {
+        "id": "feYj3vGTzuUa"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [],
+      "metadata": {
+        "id": "xu0Ot-F91d5Z"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "list(window('foobar'))"
+      ],
+      "metadata": {
+        "id": "-ZQLPKFh0Ipi"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "initial_state = '00000000000000000000100000000000000000000'"
+      ],
+      "metadata": {
+        "id": "E8b3I6Qo0MlT"
+      },
+      "execution_count": 7,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "list(window(initial_state))"
+      ],
+      "metadata": {
+        "id": "VAvsRQuG1QrD"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "patterns = window(initial_state)"
+      ],
+      "metadata": {
+        "id": "pklwd1Md1We1"
+      },
+      "execution_count": 9,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "new_state = ''.join(rule[pat] for pat in patterns)"
+      ],
+      "metadata": {
+        "id": "SP63DINK1tWV"
+      },
+      "execution_count": 13,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "new_state"
+      ],
+      "metadata": {
+        "id": "1-iU39t0105V"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "state = initial_state\n",
+        "for _ in range(15):\n",
+        "  patterns = window(state)\n",
+        "  state = ''.join(rule[pat] for pat in patterns)\n",
+        "  print(state)\n"
+      ],
+      "metadata": {
+        "id": "3X3Iwj-y2A-i"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "def generate_pattern(state, rule):\n",
+        "  for time in range(MAX_TIME):\n",
+        "    print(state)\n",
+        "    patterns = window(state)\n",
+        "    state = ''.join(rule[pat] for pat in patterns)\n",
+        "    state = '0{}0'.format(state)\n",
+        "  print(state)\n",
+        ""
+      ],
+      "metadata": {
+        "id": "8UDh8XN-3umQ"
+      },
+      "execution_count": 19,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "MAX_TIME = 20\n",
+        "generate_pattern(initial_state,rule)"
+      ],
+      "metadata": {
+        "id": "iF8UUDlO305U"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "rule = { 30: {\"111\": '0', \"110\": '0', \"101\": '0', \"000\": '0',\n",
+        "              \"100\": '1', \"011\": '1', \"010\": '1', \"001\": '1'},\n",
+        "\n",
+        "         90: {\"111\": '0', \"110\": '1', \"101\": '0', \"000\": '0',\n",
+        "              \"100\": '1', \"011\": '1', \"010\": '0', \"001\": '1'},\n",
+        "\n",
+        "         110: {\"111\": '0', \"110\": '1', \"101\": '1', \"000\": '0',\n",
+        "              \"100\": '0', \"011\": '1', \"010\": '0', \"001\": '0'},\n",
+        "\n",
+        "         184: {\"111\": '1', \"110\": '0', \"101\": '1', \"000\": '0',\n",
+        "              \"100\": '1', \"011\": '1', \"010\": '0', \"001\": '0'},\n",
+        "        }"
+      ],
+      "metadata": {
+        "id": "6oHyVSFp5ULc"
+      },
+      "execution_count": 27,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "generate_pattern(initial_state, rule[110])"
+      ],
+      "metadata": {
+        "id": "Xfcb_ay38Wzh"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "import sys\n",
+        "from random import choice\n",
+        "from time import sleep\n",
+        "\n",
+        "RULES = { 30: {\"111\": '0', \"110\": '0', \"101\": '0', \"000\": '0',\n",
+        "              \"100\": '1', \"011\": '1', \"010\": '1', \"001\": '1'},\n",
+        "\n",
+        "         90: {\"111\": '0', \"110\": '1', \"101\": '0', \"000\": '0',\n",
+        "              \"100\": '1', \"011\": '1', \"010\": '0', \"001\": '1'},\n",
+        "\n",
+        "         110: {\"111\": '0', \"110\": '1', \"101\": '1', \"000\": '0',\n",
+        "              \"100\": '0', \"011\": '1', \"010\": '0', \"001\": '0'},\n",
+        "\n",
+        "         184: {\"111\": '1', \"110\": '0', \"101\": '1', \"000\": '0',\n",
+        "              \"100\": '1', \"011\": '1', \"010\": '0', \"001\": '0'},\n",
+        "        }\n",
+        "\n",
+        "MAX_TIME = 20\n",
+        "\n",
+        "def window(iterable, stride=3):\n",
+        "  for index in range(len(iterable) - stride + 1):\n",
+        "    yield iterable[index:index + stride]\n",
+        "\n",
+        "def generate_pattern(state, rule):\n",
+        "  for time in range(MAX_TIME):\n",
+        "    print(state)\n",
+        "\n",
+        "    patterns = window(state)\n",
+        "    state = ''.join(rule[pat] for pat in patterns)\n",
+        "    state = '0{}0'.format(state)\n",
+        "    sleep(.1)\n",
+        "\n",
+        "def print_row(row):\n",
+        "  for cell in row:\n",
+        "    if cell == '1':\n",
+        "      sys.stdout.write(u'\\u2588')\n",
+        "    else:\n",
+        "        sys.stdout.write(' ')\n",
+        "  sys.stdout.write('\\n')\n"
+      ],
+      "metadata": {
+        "id": "ndsz0UC09O_O"
+      },
+      "execution_count": 31,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "rule_input = 30\n",
+        "rule = RULES[rule_input]\n",
+        "print(\"Using rule\", rule_input)\n",
+        "\n",
+        "initial_state = '0' * MAX_TIME + '1' + '0' * MAX_TIME\n",
+        "print(\"initial state\", initial_state)\n",
+        "\n",
+        "generate_pattern(initial_state, rule)"
+      ],
+      "metadata": {
+        "id": "sJgBYmU8-5Nr"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [],
+      "metadata": {
+        "id": "fLIBdZodWsoE"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "import numpy as np\n",
+        "import matplotlib.pyplot as plt\n",
+        "import time\n",
+        "\n",
+        "n = 20                    # size of matrix\n",
+        "mat = np.zeros((n,n))     # create an (n x n) matrix with zeors\n",
+        "mat[4:14, 9] = 1          # add 10 live cells\n",
+        "temp_mat = mat.copy()     # create a temporary matrix\n",
+        "\n",
+        "# Plot initial image\n",
+        "plt.imshow(np.flipud(mat.T), cmap=plt.get_cmap('gray'), interpolation='nearest', aspect='equal')\n",
+        "plt.grid(color='grey', linestyle='-', linewidth=1)\n",
+        "plt.show()"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 430
+        },
+        "id": "n7JU4Ln5AaMi",
+        "outputId": "e0a7c73f-fb6b-4058-a247-c15bde1ceddc"
+      },
+      "execution_count": 35,
+      "outputs": [
+        {
+          "output_type": "display_data",
+          "data": {
+            "text/plain": [
+              "<Figure size 640x480 with 1 Axes>"
+            ],
+            "image/png": "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rqSkpFDHAwAYLuQzrjVr1ujtt9/WBx98oNjYWDU1NUmShg8frhtvvFGStGzZMo0ePVobN26UJL344ov6+7//e33nO99Rc3OzXnnlFZ0/f16PPvpoqOMBAAwX8uLasmWLJGn27Nk+68vKyrRixQpJUkNDg89rUX/961+1evVqNTU16ZZbblF6erqqqqp05513hjoeAMBwIS+u/rzXo7Ky0mf5tdde02uvvRbqKACAQYjPKgQAGIXiAgAYheICABiF4gIAGIXiAgAYheICABiF4gIAGIXiAgAYheICABiF4gIAGIXiAgAYheICABiF4gIAGIXiAgAYheICABiF4gIAGIXiAgAYheICABiF4gIAGIXiAgAYheICABiF4gIAGIXiAgAYheICABiF4gIAGIXiAgAYheICABiF4gIAGIXiAgAYheICABiF4gIAGIXiAgAYheICABiF4gIAGIXiAgAYJeTFVVRUJJvN5nObPHlyr/u89957mjx5shwOh6ZNm6aPPvoo1LEAAINEWGZcU6dOldPp9N4OHToUcGxVVZXy8vK0atUqnThxQjk5OcrJydHJkyfDEQ0AYLiwFNfQoUOVmJjovcXHxwcc+4tf/EILFizQ008/rSlTpmjDhg26++67tXnz5nBEAwAYbmg4DnrmzBklJyfL4XAoMzNTGzdu1NixY/2Ora6uVkFBgc+6rKwslZeXBzx+Z2enOjs7vcutra2SpISEBMXEBO7iqwXaW5FGI3JHlqm5JXOzkzuyojG3x+ORy+Xq11ibZVlWKO/8448/VltbmyZNmiSn06ni4mJ9+eWXOnnypGJjY3uMHzZsmHbs2KG8vDzvun/7t39TcXFxwAdRVFSk4uLiHusLCwvlcDhC92AAABHR0dGhkpIStbS0KC4urtexIZ9xZWdne/88ffp0ZWRkKDU1Ve+++65WrVoVkvtYu3atzyyttbVVKSkpKisr63PGlZubq927d8vtdockSySQO7JMzS2Zm53ckRWNuT0eT7/HhuVS4TeNGDFCEydO1NmzZ/1uT0xM7DGzcrlcSkxMDHhMu90uu93eY31/p5lut1tOp7NfY6MJuSPL1NySudnJHVmm5g7773G1tbWprq5OSUlJfrdnZmaqoqLCZ92+ffuUmZkZ7mgAAAOFvLieeuopHThwQOfOnVNVVZUWL16sIUOGeF/DWrZsmdau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871jxw7FxsbqRz/6Ua/jouF892ZQfDr8YLFmzRqdPHmyz2vJmZmZyszM9C7PmjVLU6ZM0a9+9Stt2LAh3DElSdnZ2d4/T58+XRkZGUpNTdW7777br3/NRYM333xT2dnZSk5ODjgmGs71YNXV1aWHHnpIlmVpy5YtvY6Nhufbww8/7P3ztGnTNH36dN1+++2qrKzU3LlzI5LhWm3btk0//vGP+3yDUTSc794MmhlXfHy8hgwZIpfL5bPe5XIpMTHR7z6JiYlBjQ+n/Px8/fa3v9Vnn30W1H/RIkk33HCDvvvd7+rs2bNhSte3ESNGaOLEiQEzRNO5lqTz589r//79evTRR4PaLxrOtSTveQvmnH6b75FwuVpa58+f1759+4L+rzX6er5FwoQJExQfHx8wQzSdb0n63e9+p9OnTwf9nJei43x/06AprmHDhik9PV0VFRXedR6PRxUVFT7/Yv6mzMxMn/GStG/fvoDjw8GyLOXn52vPnj369NNPNX78+KCP0d3drc8//1xJSUlhSNg/bW1tqqurC5ghGs71N5WVlWnUqFF64IEHgtovGs61JI0fP16JiYk+57S1tVVHjhwJeE6/zfdIOFwtrTNnzmj//v267bbbgj5GX8+3SLhw4YIuXboUMEO0nO+r3nzzTaWnpystLS3ofaPhfPsY6HeHhNLOnTstu91ubd++3frTn/5kPfbYY9aIESOspqYmy7Is66c//alVWFjoHf/73//eGjp0qPXqq69af/7zn63169dbN9xwg/X5559HLPPjjz9uDR8+3KqsrLScTqf39vXXX3vH/G3u4uJi65NPPrHq6uqs48ePWw8//LDlcDisU6dORSz3P//zP1uVlZVWfX299fvf/96aN2+eFR8fb128eNFv5mg411d1d3dbY8eOtZ599tke26LpXF++fNk6ceKEdeLECUuStWnTJuvEiRPed9+VlJRYI0aMsD744APrj3/8o7Vo0SJr/Pjx1v/+7/96j3H//fdbb7zxhne5r++RcOe+cuWK9eCDD1pjxoyxamtrfZ7znZ2dAXP39XwLd+7Lly9bTz31lFVdXW3V19db+/fvt+6++27rjjvusDo6OgLmHujzfVVLS4t10003WVu2bPF7jIE439diUBWXZVnWG2+8YY0dO9YaNmyYNXPmTOvw4cPebffdd5+1fPlyn/HvvvuuNXHiRGvYsGHW1KlTrQ8//DCieSX5vZWVlQXM/eSTT3ofY0JCgvXDH/7QqqmpiWjupUuXWklJSdawYcOs0aNHW0uXLrXOnj0bMLNlDfy5vuqTTz6xJFmnT5/usS2azvVnn33m97lxNZ/H47FeeOEFKyEhwbLb7dbcuXN7PKbU1FRr/fr1Put6+x4Jd+76+vqAz/nPPvssYO6+nm/hzv31119b8+fPt0aOHGndcMMNVmpqqrV69eoeBRRt5/uqX/3qV9aNN95oNTc3+z3GQJzva8F/awIAMMqgeY0LAHB9oLgAAEahuAAARqG4AABGobgAAEahuAAARqG4AABGobgAAEahuAAARqG4AABGobgAAEahuAAARvl/pfQe3CvLsx0AAAAASUVORK5CYII=\n"
+          },
+          "metadata": {}
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "mat1 = np.roll(mat, 1, axis=0)\n",
+        "mat2 = np.roll(mat, -1, axis=0)\n",
+        "mat3 = np.roll(mat, 1, axis=1)\n",
+        "mat4 = np.roll(mat, -1, axis=1)\n",
+        "mat5 = np.roll(np.roll(mat, 1, axis=0), 1, axis=1)\n",
+        "mat6 = np.roll(np.roll(mat, 1, axis=0), -1, axis=1)\n",
+        "mat7 = np.roll(np.roll(mat, -1, axis=0), 1, axis=1)\n",
+        "mat8 = np.roll(np.roll(mat, -1, axis=0), -1, axis=1)\n",
+        "\n",
+        "# Plot test image\n",
+        "plt.imshow(np.flipud(mat5.T), cmap=plt.get_cmap('gray'), interpolation='nearest', aspect='equal')\n",
+        "plt.grid(color='grey', linestyle='-', linewidth=1)\n",
+        "plt.show()"
+      ],
+      "metadata": {
+        "id": "phKWQMyUWwDj"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "import numpy as np\n",
+        "import matplotlib.pyplot as plt\n",
+        "import time\n",
+        "\n",
+        "n = 20                    # size of matrix\n",
+        "mat = np.zeros((n,n))     # create an (n x n) matrix with zeors\n",
+        "mat[4:14, 9] = 1          # add 10 live cells\n",
+        "temp_mat = mat.copy()     # create a temporary matrix\n",
+        "\n",
+        "# Plot initial image\n",
+        "plt.imshow(np.flipud(mat.T), cmap=plt.get_cmap('gray'), interpolation='nearest', aspect='equal')\n",
+        "plt.grid(color='grey', linestyle='-', linewidth=1)\n",
+        "plt.show()\n",
+        "\n",
+        "for k in range(200):\n",
+        "  # count the number of alive neighbours\n",
+        "  numb_alive = mat1 + mat2 + mat3 + mat4 + mat5 + mat6 + mat7 + mat8\n",
+        "\n",
+        "  # update the temporary matrix based on the rules of the game\n",
+        "  temp_mat[(mat == 1) & (numb_alive < 2)] = 0\n",
+        "  temp_mat[(mat == 1) & (numb_alive > 3)] = 0\n",
+        "  temp_mat[(mat == 1) & ((numb_alive == 2) | (numb_alive == 3))] = 1\n",
+        "  temp_mat[(mat == 0) & (numb_alive == 3)] = 1\n",
+        "\n",
+        "  # update the matrix\n",
+        "  mat = temp_mat.copy()\n",
+        "\n",
+        "  # update neighbour matrices\n",
+        "  mat1 = np.roll(mat, 1, axis=0)\n",
+        "  mat2 = np.roll(mat, -1, axis=0)\n",
+        "  mat3 = np.roll(mat, 1, axis=1)\n",
+        "  mat4 = np.roll(mat, -1, axis=1)\n",
+        "  mat5 = np.roll(np.roll(mat, 1, axis=0), 1, axis=1)\n",
+        "  mat6 = np.roll(np.roll(mat, 1, axis=0), -1, axis=1)\n",
+        "  mat7 = np.roll(np.roll(mat, -1, axis=0), 1, axis=1)\n",
+        "  mat8 = np.roll(np.roll(mat, -1, axis=0), -1, axis=1)\n",
+        "\n",
+        "  # plot the update image\n",
+        "  plt.imshow(np.flipud(mat.T), cmap=plt.get_cmap('gray'), interpolation='nearest', aspect='equal')\n",
+        "  plt.grid(color='grey', linestyle='-', linewidth=1)\n",
+        "  plt.show()\n",
+        "\n",
+        "  # Pause to see changes on the screen\n",
+        "  time.sleep(0.5)"
+      ],
+      "metadata": {
+        "id": "rLvwpDPoXZcf"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "import numpy as np\n",
+        "import matplotlib.pyplot as plt\n",
+        "from matplotlib.colors import ListedColormap\n",
+        "import time\n",
+        "\n",
+        "# choose the random seed (to make sure we get same result)\n",
+        "np.random.seed(42)\n",
+        "\n",
+        "q = 0.5                 # probability for recovery\n",
+        "n = 50                  # size of matrix (50 x 50)\n",
+        "mat = np.zeros((n, n))  # create matrix (nxn) and fill up with 0\n",
+        "\n",
+        "# place one infected individual at position (25, 15) in the matrix\n",
+        "mat[24, 14] = 1\n",
+        "\n",
+        "colormap = ListedColormap([\"grey\", \"deeppink\", \"seagreen\"])\n",
+        "plt.imshow(mat, cmap=colormap, origin=\"lower\", vmin=0, vmax=2)\n",
+        "plt.xticks([])\n",
+        "plt.yticks([])\n",
+        "plt.grid(color=\"grey\", linestyle='-',linewidth=1)\n",
+        "plt.show()"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 406
+        },
+        "id": "U4YSkyC9diqy",
+        "outputId": "d8f51d41-a4aa-4126-c4e8-5dec1120ee5f"
+      },
+      "execution_count": 53,
+      "outputs": [
+        {
+          "output_type": "display_data",
+          "data": {
+            "text/plain": [
+              "<Figure size 640x480 with 1 Axes>"
+            ],
+            "image/png": "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\n"
+          },
+          "metadata": {}
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "temp = np.copy(mat)\n",
+        "t = 80 # number of time steps (corresponding to number of weeks)\n",
+        "n_healthy = np.zeros(t) # vector to count healthy at each time step\n",
+        "n_infected = np.zeros(t) # vector to count infected at each time step\n",
+        "n_resistant = np.zeros(t) # vector to count resistant at each time step\n",
+        "\n",
+        "for k in range(t):\n",
+        "  k_h = 0 #initialize counter for healthy\n",
+        "  k_i = 0 #initialize counter for infected\n",
+        "  k_r = 0 #initialize counter for resistant\n",
+        "  for i in range(n):\n",
+        "    for j in range(n):\n",
+        "      if mat[i,j] == 0:\n",
+        "        k_h += 1 # count healthy\n",
+        "      elif mat[i,j] == 1:\n",
+        "        k_i += 1 # count infected\n",
+        "      elif mat[i,j] ==2:\n",
+        "        k_r += 1 # count resistant\n",
+        "\n",
+        "      R = 0 # initialize counter for number of infected neighbours\n",
+        "\n",
+        "      if mat[i,j] == 0: # if healthy\n",
+        "        E, W, N, S = i+1, i-1, j-1, j+1\n",
+        "        # check if outside the matrix\n",
+        "        E = 0 if E == n else E\n",
+        "        W = n-1 if W == -1 else W\n",
+        "        N = n-1 if N == -1 else N\n",
+        "        S = 0 if S == n else S\n",
+        "        # count number of infected neighbours\n",
+        "        R += mat[E,j] + mat[W,j] + mat[i,N] + mat[i,S] + mat[E,N] + mat[E,S] + mat[W,N] + mat[W,S]\n",
+        "\n",
+        "      a, b = -1.5, 0.6\n",
+        "      p_infect = 1 / (1+np.exp(-(a + b * R))) # probability for healthy to become infected\n",
+        "      g = np.random.rand()\n",
+        "\n",
+        "      if g < p_infect and mat[i,j] == 0 and R > 0:\n",
+        "        temp[i,j] = 1 # healthly becomes infected\n",
+        "\n",
+        "      if mat[i,j] == 1: # if infected\n",
+        "        g = np.random.rand()\n",
+        "        if g > q:\n",
+        "          temp[i,j] = 2 # infected becomes resistant\n",
+        "\n",
+        "  plt.imshow(mat, cmap=colormap, origin=\"lower\", vmin=0, vmax=2)\n",
+        "  plt.xticks([])\n",
+        "  plt.yticks([])\n",
+        "  plt.grid(color=\"grey\", linestyle='-', linewidth=1)\n",
+        "  plt.show()\n",
+        "  time.sleep(0.5)  # To see movement on the screen, we need to pause the loop\n",
+        "\n",
+        "  mat = np.copy(temp)  # Overwrite matrix\n",
+        "  # Save the number of healthy, infected, and resistant at each time step\n",
+        "  n_healthy[k] = k_h\n",
+        "  n_infected[k] = k_i\n",
+        "  n_resistant[k] = k_r\n",
+        "\n",
+        "plt.plot(np.arange(1,t+1), n_healthy, label=\"Susceptible\", color=\"black\")\n",
+        "plt.plot(np.arange(1,t+1), n_infected, label=\"Infected\", color=\"red\")\n",
+        "plt.plot(np.arange(1,t+1), n_resistant, label=\"Recovered\", color=\"green\")\n",
+        "plt.xlabel(\"Time steps (weeks)\")\n",
+        "plt.ylabel(\"Number\")\n",
+        "plt.legend()\n",
+        "plt.show()"
+      ],
+      "metadata": {
+        "id": "GP6Lf3qMqOOe"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "import numpy as np\n",
+        "import matplotlib.pyplot as plt\n",
+        "from matplotlib.colors import ListedColormap\n",
+        "import time\n",
+        "\n",
+        "phiv = 0.01  # Fraction of cells that are initially infected at time zero\n",
+        "Tao = 5  # Number of time-steps a dead cell stays infected\n",
+        "p_rep = 0.97  # Probability that a dead cell is replaced by a healthy cell\n",
+        "n = 100  # Size of matrix\n",
+        "NN = n * n  # Total number of cells in grid\n",
+        "Time_A1 = np.zeros((n, n), dtype=int)  # A matrix that is used to count life time of A1 cells\n",
+        "mat = np.zeros((n, n), dtype=int)  # Create matrix with zeros (Healthy CD4 T cells)\n",
+        "\n",
+        "# %% Add about phiv% (1%) of infected cells at random places\n",
+        "for i in range(n):\n",
+        "    for j in range(n):\n",
+        "        if np.random.rand() < phiv:\n",
+        "            mat[i, j] = 1  # Add infected cell\n",
+        "\n",
+        "# Plot initial state\n",
+        "colormap = ListedColormap([\"grey\", \"yellow\", \"red\"])\n",
+        "plt.imshow(mat, cmap=colormap, interpolation='none', vmin=0, vmax=2)\n",
+        "plt.show()\n"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 433
+        },
+        "id": "feimbJrG3cZJ",
+        "outputId": "e416455b-dcdb-4d85-a21e-6c787da0afe7"
+      },
+      "execution_count": 55,
+      "outputs": [
+        {
+          "output_type": "display_data",
+          "data": {
+            "text/plain": [
+              "<Figure size 640x480 with 1 Axes>"
+            ],
+            "image/png": "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cEtw58+fV3NzsyoqKiLbMjMzVVFRoaamJsORJY729nZJ0uDBgyVJzc3NunDhQtSclZWVqaSkJC3nrKqqSjNnzoyaD4l5+p/XX39d48eP15133qkhQ4Zo7NixWr9+feTxkydPKhAIRM2T1+vVpEmT0mqepkyZosbGRh07dkySdOjQIe3evVt33HGHJOYpHhLuatiffPKJOjs75fP5orb7fD598MEHRqNKHF1dXaqpqdHUqVM1evRoSVIgEFB2drYGDhwYta/P51MgEDAYpZ0tW7bo/fff1/79+y96jHn63IkTJ/Tcc89p6dKleuSRR7R//34tWrRI2dnZqqysjMzFpX4G02meamtrFQqFVFZWpn79+qmzs1OrVq3S/PnzJYl5ioOECyB8uaqqKh05ckS7d++2HkrCaW1t1eLFi7Vz507l5ORYDydhdXV1afz48Vq9erUkaezYsTpy5Iief/55VVZWGo8ucbzyyivatGmTNm/erFGjRungwYOqqalRUVER8xQnCbcEd8MNN6hfv34XnZkUDAZVWFhoNKrEUF1dre3bt+vtt9+O+pbBwsJCnT9/Xm1tbVH7p9ucNTc36/Tp07rtttuUlZWlrKws7dq1S08//bSysrLk8/mYJ0lDhw7VzTffHLVt5MiROnXqlCRF5iLdfwYfeugh1dbWat68eRozZox+9KMfacmSJfL7/ZKYp3hIuADKzs7WuHHj1NjYGNnW1dWlxsZGlZeXG47MjnNO1dXV2rZtm9566y2VlpZGPT5u3Dj1798/as5aWlp06tSptJqz6dOn6/Dhwzp48GDkNn78eM2fPz/yb+ZJmjp16kWn8R87dkw33nijJKm0tFSFhYVR8xQKhbR37960mqdz585d9G2e/fr1U1dXlyTmKS6sz4K4lC1btjiPx+NefPFFd/ToUbdw4UI3cOBAFwgErIdm4v7773der9e988477uOPP47czp07F9nnvvvucyUlJe6tt95yBw4ccOXl5a68vNxw1Imh+1lwzjFPzn1+inpWVpZbtWqVO378uNu0aZO77rrr3G9/+9vIPvX19W7gwIHutddec3/+85/drFmz0u704srKSvfVr341chr273//e3fDDTe4ZcuWRfZhnnonIQPIOeeeeeYZV1JS4rKzs93EiRPdnj17rIdkRtIlbxs2bIjs89lnn7kHHnjADRo0yF133XXu+9//vvv444/tBp0gvhhAzNPn/vCHP7jRo0c7j8fjysrK3Lp166Ie7+rqcsuXL3c+n895PB43ffp019LSYjRaG6FQyC1evNiVlJS4nJwc97Wvfc397Gc/c+FwOLIP89Q7fB8QAMBEwvWAAADpgQACAJgggAAAJgggAIAJAggAYIIAAgCYIIAAACYIIACACQIIAGCCAAIAmCCAAAAm/h/IhyjcRANpxgAAAABJRU5ErkJggg==\n"
+          },
+          "metadata": {}
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "t = 50  # Number of time-steps\n",
+        "temp = np.copy(mat)  # Create temp matrix for synchronizing updating of matrix\n",
+        "\n",
+        "n_healthy = np.zeros(t + 1)  # Vector to count healthy cells at each time-step\n",
+        "n_infect = np.zeros(t + 1)  # Vector to count infected cells at each time-step\n",
+        "n_dead = np.zeros(t + 1)  # Vector to count dead cells at each time-step\n",
+        "\n",
+        "n_healthy[0] = np.sum(mat == 0)  # Number of healthy cells at first time point\n",
+        "n_infect[0] = np.sum(mat == 1)  # Number of infected cells at first time point\n",
+        "n_dead[0] = np.sum(mat == 2)  # Number of dead cells at first time point\n",
+        "\n",
+        "for k in range(t):  # Repeat t times\n",
+        "    #print(f\"time: {k}\")\n",
+        "    for i in range(n):\n",
+        "        for j in range(n):\n",
+        "            if mat[i, j] == 0:  # If healthy cell\n",
+        "                E, W, N, S = i + 1, i - 1, j - 1, j + 1\n",
+        "                # Check if outside the matrix\n",
+        "                if E == n:\n",
+        "                    E = 0\n",
+        "                if W == -1:\n",
+        "                    W = n - 1\n",
+        "                if N == -1:\n",
+        "                    N = n - 1\n",
+        "                if S == n:\n",
+        "                    S = 0\n",
+        "\n",
+        "                R = 0  # Set to zero, number of surrounding infected cells\n",
+        "\n",
+        "                # Count number of infected neighbors\n",
+        "                R += mat[E, j] == 1  # East\n",
+        "                R += mat[W, j] == 1  # West\n",
+        "                R += mat[i, N] == 1  # North\n",
+        "                R += mat[i, S] == 1  # South\n",
+        "                R += mat[E, N] == 1  # North East\n",
+        "                R += mat[E, S] == 1  # South East\n",
+        "                R += mat[W, N] == 1  # North West\n",
+        "                R += mat[W, S] == 1  # South West\n",
+        "\n",
+        "            # Count how long infected has existed\n",
+        "            if mat[i, j] == 1:  # If infected cell\n",
+        "                Time_A1[i, j] += 1  # Count how long A1 has existed\n",
+        "\n",
+        "            # Rule 1: Update of infected cell\n",
+        "            if mat[i, j] == 1 and Time_A1[i, j] >= Tao:  # If infected cell has existed for more than Tao time-steps\n",
+        "                temp[i, j] = 2  # infected -> Dead\n",
+        "                Time_A1[i, j] = 0\n",
+        "\n",
+        "            # Rule 2: Update of healthy cells\n",
+        "            if R > 0 and mat[i, j] == 0:\n",
+        "                temp[i, j] = 1  # Healthy becomes infected\n",
+        "\n",
+        "            # Rule 3: Dead cell is replaced by a Healthy cell or an infected cell\n",
+        "            pr = np.random.rand()\n",
+        "            if mat[i, j] == 2 and pr < p_rep:\n",
+        "                temp[i, j] = 0  # Dead -> Healthy\n",
+        "            elif mat[i, j] == 2 and pr >= p_rep:\n",
+        "                temp[i, j] = 1  # Dead -> Infected\n",
+        "\n",
+        "    time.sleep(0.5)  # To see movement on screen we need to pause the loop\n",
+        "    # Plot image\n",
+        "    plt.imshow(mat, cmap=colormap, interpolation='none', vmin=0, vmax=2)\n",
+        "    plt.show()\n",
+        "    mat = np.copy(temp)  # Overwrite matrix\n",
+        "    # Save number of healthy, infected and dead cells at each time-step\n",
+        "    n_healthy[k + 1] = np.sum(mat == 0)  # count healthy cells\n",
+        "    n_infect[k + 1] = np.sum(mat == 1)  # count infected cells\n",
+        "    n_dead[k + 1] = np.sum(mat == 2)  # count dead cells\n",
+        "\n",
+        "# %% Plot cell densities over time\n",
+        "time_steps = np.arange(t + 1)\n",
+        "plt.plot(time_steps, n_healthy / NN, 'b-', label='Healthy', marker='o')\n",
+        "plt.plot(time_steps, n_infect / NN, 'y-', label='Infected', marker='o')\n",
+        "plt.plot(time_steps, n_dead / NN, 'r-', label='Dead', marker='o')\n",
+        "plt.xlabel('Time-steps')\n",
+        "plt.ylabel('Cell Densities')\n",
+        "plt.ylim([0, 1])\n",
+        "plt.legend(loc='upper right')\n",
+        "plt.show()"
+      ],
+      "metadata": {
+        "id": "-_zZ75L83_nK"
+      },
+      "execution_count": null,
+      "outputs": []
+    }
+  ]
+}
